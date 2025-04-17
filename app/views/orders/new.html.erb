@@ -1,0 +1,24 @@
+<h1>Create Order</h1>
+
+<%= form_with url: orders_path, method: :post, local: true do |form| %>
+  <div>
+    <label>User:</label>
+    <%= select_tag 'user_id', options_from_collection_for_select(User.all, :id, :name), prompt: "Select User" %>
+   
+  </div>
+
+  <div id="order_items">
+    <h3>Items:</h3>
+    <% Product.all.each do |product| %>
+      <div>
+        <%= check_box_tag "items[][product_id]", product.id %>
+        <%= product.name %> -
+        <%= number_to_currency(product.price) %>
+        Quantity:
+        <%= number_field_tag "items[][quantity]", 1, min: 1 %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= form.submit "Place Order" %>
+<% end %>

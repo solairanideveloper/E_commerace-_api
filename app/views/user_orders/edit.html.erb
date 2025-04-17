@@ -1,0 +1,19 @@
+<h2>Edit Order</h2>
+
+<%= form_with model: [@user, @order], local: true do |form| %>
+  <%= form.fields_for :order_items do |item_fields| %>
+    <div>
+      <%= item_fields.hidden_field :id %>
+      <%= item_fields.label :product_id %>
+      <%= item_fields.collection_select :product_id, Product.all, :id, :name %>
+      <%= item_fields.label :quantity %>
+      <%= item_fields.number_field :quantity, min: 1 %>
+      <%= item_fields.check_box :_destroy %>
+      <%= item_fields.label :_destroy, "Remove" %>
+    </div>
+  <% end %>
+
+  <%= form.submit "Update Order" %>
+<% end %>
+
+<%= link_to "Back", user_orders_path(@user) %>
